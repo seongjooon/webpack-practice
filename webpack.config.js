@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin"); // 웹팩이 html 파일을 읽어서 html 파일을 빌드할 수 있게
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.js",
@@ -27,7 +28,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'] // 오른쪽 -> 왼쪽. css-loader로 css 파일을 읽고 MniCssExtractPlugin.loader로 읽은 CSS를 파일로 추출
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
+      },
+      {
+        test: /\.scss$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
       }
     ]
   },
@@ -37,7 +42,8 @@ module.exports = {
       filename: 'index.html' // output으로 출력할 파일은 index.html 이다.
     }),
     new MiniCssExtractPlugin({
-      filename: 'style.css'
-    })
+      filename: 'style-test.css'
+    }),
+    new CleanWebpackPlugin()
   ]
 };
